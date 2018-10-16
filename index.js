@@ -40,12 +40,12 @@ readStream.on('data', function(chunk) {
             html: newdata
         };
     
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //     if (error) {
-        //         return console.log(error);
-        //     }
-        //     console.log('Message sent: %s', info.messageId);
-        // });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+        });
     }
     
     
