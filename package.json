@@ -1,7 +1,7 @@
 {
   "name": "easy-secret-santa",
   "version": "1.0.0",
-  "description": "",
+  "description": "An easy and unbureaucratic secret santa manager",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/AlissonSteffens/easy-secret-santa.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Alisson Steffens",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AlissonSteffens/easy-secret-santa/issues"
   },
