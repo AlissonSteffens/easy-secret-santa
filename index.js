@@ -6,47 +6,62 @@ const emails = require('./data.json');
 const config = require('./config');
 
 var data = '';
+var resultado = '';
+var interval = 2 * 2000;
 
 var readStream = fs.createReadStream('template.html', 'utf8');
 let pessoas = emails.dados;
 
-readStream.on('data', function(chunk) {  
+readStream.on('data', function (chunk) {
     data += chunk;
-}).on('end', function() {
+}).on('end', function () {
     shuffle(pessoas);
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
+        port: 465,
+        secure: true,
         auth: {
             user: config.email_user,
             pass: config.email_pass
         }
     });
-    for(let i = 0 ; i < pessoas.length; i++){
-        
-        let next
-        if(i<pessoas.length-1){
-            next = i+1
-        } else{
-            next = 0
+
+    fs.writeFile("resultado.txt", "", function(err) {
+        if(err) {
+            return console.log(err);
         }
-        let newdata = data.split('{$nome}').join(pessoas[next].nome);
-        
-        let mailOptions = {
-            from: '"Família do Rafa 👪" <amgsecretofamilia@gmail.com>',
-            to: pessoas[i].email,
-            subject: 'Seu Amigo ✔',
-            html: newdata
-        };
     
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error);
+        console.log("The file was created!");
+    });
+
+    for (let i = 0; i < pessoas.length; i++) {
+        setTimeout(function (i) {
+            let next
+            if (i < pessoas.length - 1) {
+                next = i + 1
+            } else {
+                next = 0
             }
-            console.log('Message sent: %s', info.messageId);
-        });
+            let newdata = data.split('{$nome}').join(pessoas[next].nome);
+
+            
+            resultado = pessoas[i].nome + ' -> ' + pessoas[next].nome + '\n';
+            fs.appendFileSync('resultado.txt', resultado);
+            
+            let mailOptions = {
+                from: '"Amigo Secreto 🎁" <email@gmail.com>',
+                to: pessoas[i].email,
+                subject: 'Aqui está o seu amigo Secreto ✔',
+                html: newdata
+            };
+        
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
+                console.log('Message sent: %s', info.messageId);
+            });
+            
+        }, interval * i, i);
     }
-    
-    
 });
