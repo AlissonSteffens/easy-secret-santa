@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/AlissonSteffens/easy-secret-santa#readme",
   "dependencies": {
-    "nodemailer": "^4.6.8",
+    "nodemailer": "^6.4.16",
     "shuffle-array": "^1.0.1"
   }
 }
